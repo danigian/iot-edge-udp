@@ -1,0 +1,79 @@
+﻿{
+  "moduleContent": {
+    "$edgeAgent": {
+      "properties.desired": {
+        "schemaVersion": "1.0",
+        "runtime": {
+          "type": "docker",
+          "settings": {
+            "minDockerVersion": "v1.25",
+            "loggingOptions": ""
+          }
+        },
+        "systemModules": {
+          "edgeAgent": {
+            "type": "docker",
+            "settings": {
+              "image": "microsoft/azureiotedge-agent:1.0-preview",
+              "createOptions": "{}"
+            },
+            "configuration": {
+              "id": "sampledeployment"
+            }
+          },
+          "edgeHub": {
+            "type": "docker",
+            "status": "running",
+            "restartPolicy": "always",
+            "settings": {
+              "image": "microsoft/azureiotedge-hub:1.0-preview",
+              "createOptions": "{}"
+            },
+            "configuration": {
+              "id": "sampledeployment"
+            }
+          }
+        },
+        "modules": {
+          "udpmodule": {
+            "version": "1.0",
+            "type": "docker",
+            "status": "running",
+            "restartPolicy": "always",
+            "settings": {
+              "image": "danigian/udpmodule:1.0.0",
+              "createOptions": "{\"Env\":[\"EdgeUdpPort=1209\"],\"ExposedPorts\":{\"1209/udp\":{}},\"HostConfig\":{\"PortBindings\":{\"1209/udp\":[{\"HostPort\":\"1209\"}]}}}"
+            },
+            "configuration": {
+              "id": "sampledeployment"
+            }
+          },
+          "analyzeandfilter": {
+            "version": "1.0",
+            "type": "docker",
+            "status": "running",
+            "restartPolicy": "always",
+            "settings": {
+              "image": "danigian/analyzeandfilter:latest",
+              "createOptions": "{}"
+            },
+            "configuration": {
+              "id": "sampledeployment"
+            }
+          }
+        }
+      }
+    },
+    "$edgeHub": {
+      "properties.desired": {
+        "schemaVersion": "1.0",
+        "routes": {
+          "route": "FROM /messages/modules/udpmodule/outputs/output1 INTO BrokeredEndpoint(\"/modules/analyzeandfilter/inputs/input1\")"
+        },
+        "storeAndForwardConfiguration": {
+          "timeToLiveSecs": 7200
+        }
+      }
+    }
+  }
+}
