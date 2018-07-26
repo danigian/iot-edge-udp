@@ -3,9 +3,6 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 **/Properties/launchSettings.json
-bin/
-obj/
-.vscode/
 
 *_i.c
 *_p.c
@@ -31,3 +28,7 @@ obj/
 *.pidb
 *.svclog
 *.scc
+.vs
+
+[Bb]in/
+[Oo]bj/

@@ -1,4 +1,4 @@
-﻿{
+{
   "moduleContent": {
     "$edgeAgent": {
       "properties.desired": {
@@ -7,18 +7,22 @@
           "type": "docker",
           "settings": {
             "minDockerVersion": "v1.25",
-            "loggingOptions": ""
+            "loggingOptions": "",
+            "registryCredentials": {
+              "docker": {
+                "username": "$CONTAINER_REGISTRY_USERNAME_docker",
+                "password": "$CONTAINER_REGISTRY_PASSWORD_docker",
+                "address": "docker.io"
+              }
+            }
           }
         },
         "systemModules": {
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "microsoft/azureiotedge-agent:1.0-preview",
-              "createOptions": "{}"
-            },
-            "configuration": {
-              "id": "sampledeployment"
+              "image": "mcr.microsoft.com/azureiotedge-agent:1.0",
+              "createOptions": ""
             }
           },
           "edgeHub": {
@@ -26,39 +30,20 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "microsoft/azureiotedge-hub:1.0-preview",
-              "createOptions": "{}"
-            },
-            "configuration": {
-              "id": "sampledeployment"
+              "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
+              "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}}"
             }
           }
         },
         "modules": {
-          "udpmodule": {
+          "iot_edge_udp": {
             "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "danigian/udpmodule:1.0.0",
+              "image": "${MODULES.iot_edge_udp.arm32v7}",
               "createOptions": "{\"Env\":[\"EdgeUdpPort=1209\"],\"ExposedPorts\":{\"1209/udp\":{}},\"HostConfig\":{\"PortBindings\":{\"1209/udp\":[{\"HostPort\":\"1209\"}]}}}"
-            },
-            "configuration": {
-              "id": "sampledeployment"
-            }
-          },
-          "analyzeandfilter": {
-            "version": "1.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "settings": {
-              "image": "danigian/analyzeandfilter:latest",
-              "createOptions": "{}"
-            },
-            "configuration": {
-              "id": "sampledeployment"
             }
           }
         }
@@ -68,7 +53,7 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          "route": "FROM /messages/modules/udpmodule/outputs/output1 INTO BrokeredEndpoint(\"/modules/analyzeandfilter/inputs/input1\")"
+          "iot_edge_udpToIoTHub": "FROM /messages/modules/iot_edge_udp/outputs/output1 INTO $upstream"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200
