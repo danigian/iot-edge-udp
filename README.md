@@ -6,7 +6,7 @@ Unfortunately, there is no native support for UDP protocols in Azure IoT Hub and
 
 ### Build Azure IoT Edge solutions with UDP connectivity ###
 
-Using this module, developers can build Azure IoT Edge solutions with UDP connectivity. This [Azure IoT Edge](https://github.com/Azure/iot-edge "Azure IoT Edge") module is capable to create a UDP Endpoint, on a defined port, and to route the data payload to the output of the module.
+Using this module, developers can build Azure IoT Edge solutions with UDP connectivity. This [Azure IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/ "Azure IoT Edge") module is capable to create a UDP Endpoint, on a defined port, and to route the data payload to the output of the module.
 
 In order to do some tests, there is a prebuilt UDP module container image at danigian/udpmodule:1.0.0-ga-amd64 which will simply route the datagram payload to the "output1" of the IoT Edge module. *(Be careful: you should not use this in a production environment)*
 
