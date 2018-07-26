@@ -2,7 +2,7 @@ As a matter of fact, you can read [the official documentation](https://docs.micr
 
 Unfortunately, there is no native support for UDP protocols in Azure IoT Hub and that’s a pity because UDP is fast, lightweight and perfect for low power radio technologies (an example of LPWAN could be [NarrowBand IoT](https://en.wikipedia.org/wiki/NarrowBand_IOT))
 
-# Azure IoT Edge UDP Solution (now works with GA bits!)#
+# Azure IoT Edge UDP Solution (now works with GA bits!) #
 
 ### Build Azure IoT Edge solutions with UDP connectivity ###
 
